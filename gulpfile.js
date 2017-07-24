@@ -3,8 +3,7 @@ var runSequence = require('run-sequence');
 var browserSync = require("browser-sync").create();
 
 // Styles
-// var less = require('gulp-less');
-var sass = require('gulp-sass');
+var less = require('gulp-less');
 var autoprefixer = require("gulp-autoprefixer");
 var sourcemaps = require('gulp-sourcemaps');
 
@@ -13,7 +12,7 @@ var pug = require('gulp-pug');
 
 // npm i gulp-less gulp-autoprefixer gulp-sourcemaps --save-dev
 // npm i gulp-pug --save-dev
-// npm i gulp-sass --save-dev
+
 
 
 /* ------------------------------------
@@ -27,34 +26,20 @@ gulp.task("server", function () {
 	});
 });
 
-/* ------------------------------------
-  SASS
------------------------------------- */
-
-
-gulp.task('sass', function () {
-    return gulp.src('.app/sass/**/*.scss')
-//     .pipe(sourcemaps.init())
-     .pipe(sass())
-//     .pipe(autoprefixer({ browsers: ['last 4 versions'] }))
-//     .pipe(sourcemaps.write())
-     .pipe(gulp.dest('./app/css/'))
-});
- 
 
 
 /* ------------------------------------
   LESS
 ------------------------------------ */
-// gulp.task('less', function() {
-//    return gulp.src('./app/less/main.less')
-//      .pipe(sourcemaps.init())
-//      .pipe(less())
-//      .pipe(autoprefixer({ browsers: ['last 4 versions'] }))
-//      .pipe(sourcemaps.write())
-//      .pipe(gulp.dest('./app/css/'))
-//      .pipe(browserSync.stream());
-// });
+gulp.task('less', function() {
+    return gulp.src('./app/less/main.less')
+      .pipe(sourcemaps.init())
+      .pipe(less())
+      .pipe(autoprefixer({ browsers: ['last 4 versions'] }))
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest('./app/css/'))
+      .pipe(browserSync.stream());
+});
 
 
 /* ------------------------------------
@@ -70,8 +55,15 @@ gulp.task('pug', function() {
 });
 
 
+/* ------------------------------------
+  SASS
+------------------------------------ */
+/*
+
+---- Сделать дома - ДЗ ------
 
 
+*/
 
 
 
@@ -79,7 +71,7 @@ gulp.task('pug', function() {
   WATCH
 ------------------------------------ */
 gulp.task('watch', function() {
-    gulp.watch('./app/scss/**/*.scss', ['sass']);
+    gulp.watch('./app/less/**/*.less', ['less']);
     gulp.watch('./app/pug/**/*.pug', ['pug']);
 });	
 
@@ -89,7 +81,7 @@ gulp.task('watch', function() {
 ------------------------------------ */
 gulp.task('default', function() {
     runSequence(
-    	['sass', 'pug'],
+    	['less', 'pug'],
     	['server', 'watch']
     )
 });
